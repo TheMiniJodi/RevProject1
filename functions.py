@@ -209,11 +209,7 @@ def main():
             importJson()
         elif userInput == "6":
             exportJson()
-            # If I have time do this
-            # print("Function Coming soon!")
-            # pass
         elif userInput == 'q' or userInput =='Q':
-            # saveCoffee(myCoffeeList)
             quit()  
         else:
             print("Invaild Option")
