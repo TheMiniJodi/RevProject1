@@ -1,0 +1,67 @@
+{"coffee":[{
+    "itemId": 1,
+    "name": "The Great Bean",
+    "pricePerLB": 14,
+    "quantity": 34,
+    "roasting": "L"
+},{
+    "itemId": 3,
+    "name": "Stardust Coffee",
+    "pricePerLB": 7,
+    "quantity": 30,
+    "roasting": "D"
+},{
+    "itemId": 4,
+    "name": "Manhattan Coffee",
+    "pricePerLB": 10,
+    "quantity": 25,
+    "roasting": "L"
+},{
+    "itemId": 5,
+    "name": "Spicy Brew",
+    "pricePerLB": 12,
+    "quantity": 10,
+    "roasting": "M"
+},{
+    "itemId": 6,
+    "name": "Electric Beans",
+    "pricePerLB": 10,
+    "quantity": 2,
+    "roasting": "D"
+},{
+    "itemId": 7,
+    "name": "Sip And Snack",
+    "pricePerLB": 12,
+    "quantity": 40,
+    "roasting": "D"
+},{
+    "itemId": 8,
+    "name": "Coffee Grinds",
+    "pricePerLB": 7,
+    "quantity": 22,
+    "roasting": "L"
+},{
+    "itemId": 9,
+    "name": "Wholesome Coffee",
+    "pricePerLB": 4,
+    "quantity": 21,
+    "roasting": "M"
+},{
+    "itemId": 10,
+    "name": "Coffee Corner",
+    "pricePerLB": 11,
+    "quantity": 19,
+    "roasting": "M"
+},{
+    "itemId": 11,
+    "name": "test",
+    "pricePerLB": 10,
+    "quantity": 1,
+    "roasting": "M"
+},{
+    "itemId": 2,
+    "name": "test",
+    "pricePerLB": 12,
+    "quantity": 43,
+    "roasting": "L"
+}]}
