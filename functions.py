@@ -1,4 +1,3 @@
-from debugpy import connect
 import coffee
 import re
 import os.path
@@ -8,8 +7,7 @@ import connectDB
 
 
 
-# choice #1
-# TODO check to see if a coffee id exist before adding it
+#### choice 1 ####
 def addCoffeeItem():
     print("Adding a coffee item")
     while True:
@@ -19,6 +17,10 @@ def addCoffeeItem():
         # checking if integer
         if not re.match("^[0-9]*$",itemId):
             print("Sorry coffee id must be a number")
+
+        # check if item id already exist
+        elif searchCoffee(itemId) != "Sorry, but that item number isn't in our records":
+                print("Sorry, but that coffee ID already exist")
         else:
             break
     
@@ -42,6 +44,8 @@ def addCoffeeItem():
     while True:
         print("Please enter the roasting type ex: L, M, D")
         roasting = input(">>>")
+
+        # Only except L, M, D
         if roasting != "L" and roasting != "M" and roasting != "D":
             print("Sorry, please choose L, M, or D ")
         else:
@@ -49,6 +53,8 @@ def addCoffeeItem():
     while True:
         print("Please enter the number of units avalible")
         quantity = input(">>>")
+
+        # Check if integer
         if not re.match("^[0-9]*$", quantity):
             print("Sorry, the quantity must be a number")
         else:
@@ -67,38 +73,46 @@ def addCoffeeItem():
     return newCoffee 
 
 
-# choice #2
-def searchCoffee():
-    while True:
-        print("Enter the coffee's item number")
-        global coffeeId
-        coffeeId = input(">>>")
-        if not re.match("^[0-9]*$", coffeeId):
-            print("Sorry, please enter a number")
-        else:
-            break
+#### choice 2 ####
+def searchCoffee(id=''):
+    if id =='':
+        while True:
+            print("Enter the coffee's item number")
+            global coffeeId
+            coffeeId = input(">>>")
+            if not re.match("^[0-9]*$", coffeeId):
+                print("Sorry, please enter a number")
+            else:
+                break
     
-    coffeeId = int(coffeeId)
-    results = connectDB.collection.find_one({"itemId" : coffeeId})
-    results = str(results)
+        coffeeId = int(coffeeId)
+        results = connectDB.collection.find_one({"itemId" : coffeeId})
+        results = str(results)
+    else:
+        id = int(id)
+        results = connectDB.collection.find_one({"itemId" : id})
+        results = str(results)
     if results == "None":
         return "Sorry, but that item number isn't in our records"
     else:
         return results
-        
 
-# choice #3
+
+#### choice 3 ####
 def deleteCoffee():
     print(searchCoffee())
     print("Do you want to delete this coffee item?\ny) yes\nn) no")
     choice = input(">>>")
+
+    # Verify that they want to delete item. 
+    # This will exit the deleting process if any value other than y/Y is selected
     if choice == 'y' or choice == 'Y':
         connectDB.collection.delete_one({"itemId" : coffeeId})  
         print("Item has deleted")
     else:
         print("Deleting process was canceled...")
 
-# choice #4
+#### choice 4 ####
 def updateCoffee():
     result = searchCoffee()
     if result != "Sorry, but that item number isn't in our records":
@@ -106,8 +120,9 @@ def updateCoffee():
         print("Do you want to update this coffee item\ny) yes\nn) no")
         choice = input(">>>")
 
+        # Verify that they want to update item. 
+        # This will exit the upgrading process if any value other than y/Y is selected
         if choice == 'y' or choice =='Y':
-            # Update item
             print("Select which option you would like to update\n1) price per pound\n2) quantity")
             field = input(">>>")
 
@@ -115,6 +130,7 @@ def updateCoffee():
                 while True:
                     print("Please enter the new price per pound")
                     newPrice = input(">>>")
+
                     if not re.match("^[0-9]*$", newPrice):
                         print("Please enter a number")
                     else:
@@ -125,6 +141,7 @@ def updateCoffee():
                 while True:
                     print("Please enter the new quantity")
                     newQuantity = input(">>>")
+
                     if not re.match("^[0-9]*$", newQuantity):
                         print("Please enter a number")
                     else:
@@ -138,7 +155,7 @@ def updateCoffee():
     else:
         print("Sorry, but that item number isn't in our records")
 
-# choice #5
+#### choice 5 ####
 def importJson():
     print("Please enter the name of json file. ex: myFile.json")
     file = input(">>>")
@@ -153,7 +170,7 @@ def importJson():
     else:
        print("Sorry, file not found")
 
-# choice #6
+#### choice 6 ####
 def exportJson():
     print("Exporting file...")
     file = open("coffeeExport.json", 'w')

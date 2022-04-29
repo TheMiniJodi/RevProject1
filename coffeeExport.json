@@ -1,4 +1,16 @@
 {"coffee":[{
+    "itemId": 1,
+    "name": "The Great Bean",
+    "pricePerLB": 14,
+    "roasting": "L",
+    "quantity": 34
+},{
+    "itemId": 2,
+    "name": "Monkey Coffee",
+    "pricePerLB": 12,
+    "roasting": "M",
+    "quantity": 12
+},{
     "itemId": 3,
     "name": "Stardust Coffee",
     "pricePerLB": 7,
@@ -46,16 +58,4 @@
     "pricePerLB": 11,
     "roasting": "M",
     "quantity": 19
-},{
-    "itemId": 11,
-    "name": "test",
-    "pricePerLB": 10,
-    "roasting": "M",
-    "quantity": 1
-},{
-    "itemId": 2,
-    "name": "test",
-    "pricePerLB": 12,
-    "roasting": "L",
-    "quantity": 43
 }]}
