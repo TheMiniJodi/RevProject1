@@ -1,9 +1,10 @@
 import coffee
+import connectDB
 import re
 import os.path
 from os import path
 import json
-import connectDB
+
 
 
 
@@ -100,23 +101,27 @@ def searchCoffee(id=''):
 
 #### choice 3 ####
 def deleteCoffee():
-    print(searchCoffee())
-    print("Do you want to delete this coffee item?\ny) yes\nn) no")
-    choice = input(">>>")
+    results = searchCoffee()
+    if results != "Sorry, but that item number isn't in our records":
+        print(results)
+        print("Do you want to delete this coffee item?\ny) yes\nn) no")
+        choice = input(">>>")
 
-    # Verify that they want to delete item. 
-    # This will exit the deleting process if any value other than y/Y is selected
-    if choice == 'y' or choice == 'Y':
-        connectDB.collection.delete_one({"itemId" : coffeeId})  
-        print("Item has deleted")
+        # Verify that they want to delete item. 
+        # This will exit the deleting process if any value other than y/Y is selected
+        if choice == 'y' or choice == 'Y':
+            connectDB.collection.delete_one({"itemId" : coffeeId})  
+            print("Item has deleted")
+        else:
+            print("Deleting process was canceled...")
     else:
-        print("Deleting process was canceled...")
+        print(results)
 
 #### choice 4 ####
 def updateCoffee():
-    result = searchCoffee()
-    if result != "Sorry, but that item number isn't in our records":
-        print(result)
+    results = searchCoffee()
+    if results != "Sorry, but that item number isn't in our records":
+        print(results)
         print("Do you want to update this coffee item\ny) yes\nn) no")
         choice = input(">>>")
 
@@ -153,7 +158,7 @@ def updateCoffee():
         else:
             print("Updating process was canceled...")
     else:
-        print("Sorry, but that item number isn't in our records")
+        print(results)
 
 #### choice 5 ####
 def importJson():
@@ -164,7 +169,9 @@ def importJson():
         jsonFile = json.load(file)
 
         for item in jsonFile['coffee']:
-            connectDB.collection.insert_one(item)       
+            # Don't add ones that are already stored in the db
+            if searchCoffee(item['itemId']) == "Sorry, but that item number isn't in our records":
+                connectDB.collection.insert_one(item)       
         print("Importing was successful!")
         file.close()
     else:
@@ -194,43 +201,3 @@ def exportJson():
     file.write("]}")
     file.close()
     print("Export complete")
-  
-    
-def main():
-    # myCoffeeList =[]
-    while True:
-        print("----------------------------------\n"
-            "       Coffee Inventory App       \n" 
-            +"----------------------------------\n"
-            + "1 Add coffee item\n"
-            + "2 Search coffee products\n"
-            + "3 Delete coffee item\n"
-            + "4 Update coffee item\n" 
-            + "5 Import Json file\n"
-            + "6 Export Json file\n"
-            + "q to quit")
-
-        userInput = str(input(">>>"))
-        
-        if userInput == "1":
-            # myCoffeeList.append(addCoffeeItem())
-            print(addCoffeeItem())
-        elif userInput == "2":
-            print(searchCoffee())
-        elif userInput == "3":
-            deleteCoffee()
-        elif userInput == "4":
-            updateCoffee()
-        elif userInput == "5":
-            print("Import Json file")
-            importJson()
-        elif userInput == "6":
-            exportJson()
-        elif userInput == 'q' or userInput =='Q':
-            quit()  
-        else:
-            print("Invaild Option")
-
-    
-    
-main()
