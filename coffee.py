@@ -8,4 +8,6 @@ class Coffee:
         self.roasting = roasting
         self.quantity = quantity
 
-    
+    def __str__(self):
+        return ('Coffee item has been added\nName: {self.name}\nPrice Per Pound: {self.pricePerLB}\nRoasting Type: {self.roasting}\nQuantity: {self.quantity}'.format(self=self))
+

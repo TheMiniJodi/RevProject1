@@ -16,7 +16,7 @@ def main():
         userInput = str(input(">>>"))
         
         if userInput == "1":
-            print(functions.addCoffeeItem())
+            functions.addCoffeeItem()
         elif userInput == "2":
             print(functions.searchCoffee())
         elif userInput == "3":

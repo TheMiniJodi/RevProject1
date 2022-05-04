@@ -61,6 +61,7 @@ def addCoffeeItem():
         else:
             break
     newCoffee = coffee.Coffee(itemId,name, pricePerLB, roasting, quantity)
+    print(newCoffee)
 
     coffeeObject = {
         "itemId" : int(itemId),
@@ -69,13 +70,15 @@ def addCoffeeItem():
         "roasting" : str(roasting),
         "quantity" : int(quantity)
     }
-    connectDB.collection.insert_one(coffeeObject)
-    print("Coffee item has been added")
-    return newCoffee 
+    try:
+        connectDB.collection.insert_one(coffeeObject)
+    except BaseException as e:
+        print(e)
 
 
 #### choice 2 ####
 def searchCoffee(id=''):
+    results = ''
     if id =='':
         while True:
             print("Enter the coffee's item number")
@@ -87,12 +90,23 @@ def searchCoffee(id=''):
                 break
     
         coffeeId = int(coffeeId)
-        results = connectDB.collection.find_one({"itemId" : coffeeId})
-        results = str(results)
+        try:
+            results = connectDB.collection.find_one({"itemId" : coffeeId})
+            results = str(results)
+        except BaseException:
+            print("Sorry, something went wrong")
+            print("Terminating program...")
+            quit()
     else:
         id = int(id)
-        results = connectDB.collection.find_one({"itemId" : id})
-        results = str(results)
+        try:
+            results = connectDB.collection.find_one({"itemId" : id})
+            results = str(results)
+        except BaseException:
+            print("Sorry, something went wrong")
+            print("Terminating program...")
+            quit()
+            
     if results == "None":
         return "Sorry, but that item number isn't in our records"
     else:
@@ -141,6 +155,8 @@ def updateCoffee():
                     else:
                         connectDB.collection.update_one({"itemId": coffeeId},{"$set":{"pricePerLB": int(newPrice)}})
                         print("Price per pound has been updated")
+                        print(searchCoffee(coffeeId))
+
                         break
             elif field == "2":
                 while True:
@@ -152,6 +168,7 @@ def updateCoffee():
                     else:
                         connectDB.collection.update_one({"itemId": coffeeId},{"$set":{"quantity": int(newQuantity)}})
                         print("Quantity has been updated")
+                        print(searchCoffee(coffeeId))
                         break
             else:
                 print("Invalid option")            
@@ -171,7 +188,13 @@ def importJson():
         for item in jsonFile['coffee']:
             # Don't add ones that are already stored in the db
             if searchCoffee(item['itemId']) == "Sorry, but that item number isn't in our records":
-                connectDB.collection.insert_one(item)       
+                newCoffee = coffee.Coffee(item['itemId'],item['name'],item['pricePerLB'],item['roasting'], item['quantity'])
+                print(newCoffee)
+                print("\n")
+                try:
+                    connectDB.collection.insert_one(item)
+                except BaseException as e:
+                    print(e)       
         print("Importing was successful!")
         file.close()
     else:
