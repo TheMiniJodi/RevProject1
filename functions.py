@@ -1,3 +1,6 @@
+# This is the functionality that main is using
+# I terminate the program if an error comes up while trying to search for an object within the db
+# usually, for reasons of a bad connection. If it is a bad connection the db client will time out after 1000 milisecs,
 import coffee
 import connectDB
 import re
@@ -60,9 +63,11 @@ def addCoffeeItem():
             print("Sorry, the quantity must be a number")
         else:
             break
+    # This is my class object
     newCoffee = coffee.Coffee(itemId,name, pricePerLB, roasting, quantity)
     print(newCoffee)
 
+    # Json object to insert into db
     coffeeObject = {
         "itemId" : int(itemId),
         "name" : str(name),
@@ -76,12 +81,13 @@ def addCoffeeItem():
         print(e)
 
 
-#### choice 2 ####
+#### choice 2 #### 
 def searchCoffee(id=''):
     results = ''
     if id =='':
         while True:
             print("Enter the coffee's item number")
+            # I made this global so that I can search the itemId before enacting any CRUD operation 
             global coffeeId
             coffeeId = input(">>>")
             if not re.match("^[0-9]*$", coffeeId):
@@ -181,6 +187,7 @@ def updateCoffee():
 def importJson():
     print("Please enter the name of json file. ex: myFile.json")
     file = input(">>>")
+    # Checking if the file exists
     if path.exists(file):
         file = open(file, 'r')
         jsonFile = json.load(file)
@@ -203,8 +210,8 @@ def importJson():
 #### choice 6 ####
 def exportJson():
     print("Exporting file...")
+
     file = open("coffeeExport.json", 'w')
-    temp ={}
     coffee = connectDB.collection.find()
     numItems = len(list(coffee))
     coffee=connectDB.collection.find()

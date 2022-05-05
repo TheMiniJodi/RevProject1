@@ -1,3 +1,5 @@
+# This is the functionality for the menu options. It will keep running until the user selects 'q' or 'Q'
+
 import functions
 
 def main():
@@ -24,7 +26,6 @@ def main():
         elif userInput == "4":
             functions.updateCoffee()
         elif userInput == "5":
-            print("Import Json file")
             functions.importJson()
         elif userInput == "6":
             functions.exportJson()

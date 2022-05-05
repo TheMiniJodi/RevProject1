@@ -1,3 +1,4 @@
+# This is a coffee class 
 
 class Coffee:
 
