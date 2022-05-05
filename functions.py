@@ -1,5 +1,5 @@
 # This is the functionality that main is using
-# I terminate the program if an error comes up while trying to search for an object within the db
+# The program will terminate if an error comes up while trying to search for an object within the db
 # usually, for reasons of a bad connection. If it is a bad connection the db client will time out after 1000 milisecs,
 import coffee
 import connectDB
