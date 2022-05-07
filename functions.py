@@ -4,9 +4,9 @@
 import coffee
 import connectDB
 import re
-import os.path
 from os import path
 import json
+import pprint
 
 
 
@@ -54,6 +54,7 @@ def addCoffeeItem():
             print("Sorry, please choose L, M, or D ")
         else:
             break
+
     while True:
         print("Please enter the number of units avalible")
         quantity = input(">>>")
@@ -123,8 +124,8 @@ def searchCoffee(id=''):
 def deleteCoffee():
     results = searchCoffee()
     if results != "Sorry, but that item number isn't in our records":
-        print(results)
-        print("Do you want to delete this coffee item?\ny) yes\nn) no")
+        pprint.pprint(results)
+        print("Do you want to delete this coffee item?\n--------------------------------------\ny) yes\nn) no")
         choice = input(">>>")
 
         # Verify that they want to delete item. 
@@ -135,20 +136,20 @@ def deleteCoffee():
         else:
             print("Deleting process was canceled...")
     else:
-        print(results)
+       pprint.pprint(results)
 
 #### choice 4 ####
 def updateCoffee():
     results = searchCoffee()
     if results != "Sorry, but that item number isn't in our records":
-        print(results)
-        print("Do you want to update this coffee item\ny) yes\nn) no")
+        pprint.pprint(results)
+        print("Do you want to update this coffee item?\n---------------------------------------\ny) yes\nn) no")
         choice = input(">>>")
 
         # Verify that they want to update item. 
         # This will exit the upgrading process if any value other than y/Y is selected
         if choice == 'y' or choice =='Y':
-            print("Select which option you would like to update\n1) price per pound\n2) quantity")
+            print("Select which option you would like to update:\n--------------------------------------------\n1) price per pound\n2) quantity")
             field = input(">>>")
 
             if field == "1":
@@ -161,9 +162,9 @@ def updateCoffee():
                     else:
                         connectDB.collection.update_one({"itemId": coffeeId},{"$set":{"pricePerLB": int(newPrice)}})
                         print("Price per pound has been updated")
-                        print(searchCoffee(coffeeId))
-
+                        pprint.pprint(searchCoffee(coffeeId))
                         break
+
             elif field == "2":
                 while True:
                     print("Please enter the new quantity")
@@ -174,14 +175,14 @@ def updateCoffee():
                     else:
                         connectDB.collection.update_one({"itemId": coffeeId},{"$set":{"quantity": int(newQuantity)}})
                         print("Quantity has been updated")
-                        print(searchCoffee(coffeeId))
+                        pprint.pprint(searchCoffee(coffeeId))
                         break
             else:
                 print("Invalid option")            
         else:
             print("Updating process was canceled...")
     else:
-        print(results)
+        pprint.pprint(results)
 
 #### choice 5 ####
 def importJson():
@@ -201,7 +202,8 @@ def importJson():
                 try:
                     connectDB.collection.insert_one(item)
                 except BaseException as e:
-                    print(e)       
+                    print(e)   
+
         print("Importing was successful!")
         file.close()
     else:
@@ -210,12 +212,13 @@ def importJson():
 #### choice 6 ####
 def exportJson():
     print("Exporting file...")
-
+    # Create new file for export data
     file = open("coffeeExport.json", 'w')
     coffee = connectDB.collection.find()
     numItems = len(list(coffee))
     coffee=connectDB.collection.find()
     file.write('{"coffee":[')
+
     for item in coffee:
         temp={
             "itemId": item['itemId'],
@@ -228,6 +231,7 @@ def exportJson():
         if numItems > 1:
             numItems -= 1
             file.write(',')
+
     file.write("]}")
     file.close()
     print("Export complete")

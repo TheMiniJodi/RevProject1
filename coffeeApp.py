@@ -1,5 +1,6 @@
 # This is the functionality for the menu options. It will keep running until the user selects 'q' or 'Q'
 
+import pprint
 import functions
 
 def main():
@@ -20,7 +21,7 @@ def main():
         if userInput == "1":
             functions.addCoffeeItem()
         elif userInput == "2":
-            print(functions.searchCoffee())
+            pprint.pprint(functions.searchCoffee())
         elif userInput == "3":
             functions.deleteCoffee()
         elif userInput == "4":
