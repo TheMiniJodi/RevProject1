@@ -32,7 +32,7 @@ This is a CLI of an MVP of a coffee inventory application that a coffee shop wou
 
 
  **unix:**
- - git clone https://github.com/TheMiniJodi/RevProject1.git
+ - gh repo clone TheMiniJodi/RevProject1
  - python3 
  
     
